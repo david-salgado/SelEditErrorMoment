@@ -53,6 +53,7 @@ setMethod(
         })
 
         auxDT.list <- split(auxDT, auxDT[[object@VarRoles[['Domains']]]])
+
         outputDomains <- lapply(seq(along = auxDT.list), function(indexDomain){
 
             out <- auxDT.list[[indexDomain]][, object@VarRoles[['Domains']], with = FALSE]
@@ -68,12 +69,23 @@ setMethod(
         })
         outputMoments <- lapply(seq(along = auxDT.list), function(indexDomain){
 
-            localMoments <- auxDT.list[[indexDomain]][, paste0('Moment', VarNames), with = FALSE]
+            nUnits <- dim(outputUnits[[indexDomain]])[1]
+            nVar <- length(VarNames)
+            indexMatrix <- cbind(1:nUnits, 1:nUnits, rep(1:nVar, each = nUnits))
+            MomentMatrix <- matrix(NA, nrow = nUnits, ncol = nVar)
+            for (indexVar in seq(along = VarNames)){
 
-            out <- auxDT.list[[indexDomain]][, object@VarRoles[['Units']], with = FALSE]
+                MomentMatrix[, indexVar] <- auxDT.list[[indexDomain]][[paste0('Moment', VarNames[indexVar])]]
+            }
+            out <- slam::simple_sparse_array(indexMatrix, as.vector(MomentMatrix))
+
             return(out)
         })
-
-        return(outputDomains)
+        output <- new(Class = 'ErrorMoments',
+                      VarNames = VarNames,
+                      Domains = Domains,
+                      Units = outputUnits,
+                      Moments = outputMoments)
+        return(output)
     }
 )

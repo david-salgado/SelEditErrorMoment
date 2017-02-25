@@ -42,21 +42,21 @@ setClass(Class = "ErrorMoments",
 
            }
 
-           ArrayCorrect <- lapply(seq(along = object@Moments), function(index.Moments){
+           #ArrayCorrect <- lapply(seq(along = object@Moments), function(index.Moments){
 
-             if (!is.array(object@Moments[[index.Moments]])) stop()
-             dimArray <- dim(object@Moments[[index.Moments]])
-             if (dim[1] != dim[2]) stop()
-             if (dim[3] != length(object@VarNames)) stop()
+        #   if (!is.array(object@Moments[[index.Moments]])) stop()
+        #     dimArray <- dim(object@Moments[[index.Moments]])
+        #     if (dim[1] != dim[2]) stop()
+        #     if (dim[3] != length(object@VarNames)) stop()
 
-           })
-           if (!all(ArrayCorrect)) stop()
+        #   })
+        #   if (!all(ArrayCorrect)) stop()
 
-           SameUnits <- lapply(seq(along = object@Units), function(index.unitDT){
+        #   SameUnits <- lapply(seq(along = object@Units), function(index.unitDT){
 
-             if (dim(object@Units[[index.unitDT]])[[1]] != dim(object@Moments[[index.unitDT]])) stop('[contObsPredModelParam::validity] .')
+        #     if (dim(object@Units[[index.unitDT]])[[1]] != dim(object@Moments[[index.unitDT]])) stop('[contObsPredModelParam::validity] .')
 
-           })
+        #   })
 
 
            return(TRUE)
