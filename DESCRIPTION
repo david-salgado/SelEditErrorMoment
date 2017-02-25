@@ -1,0 +1,30 @@
+Package: SelEditErrorMoment
+Type: Package
+Title: compute the conditional measurement error moments under the optimization
+    approach to selective editing
+Version: 0.0.1
+Authors@R: c(
+    person("David", "Salgado", email = "david.salgado.fernandez@gmail.com", role = c("cre", "aut")),
+    person("Elisa", "Esteban", email = "elisa.esteban.segurado@gmail.com", role = "aut"),
+    person("Soledad", "Saldaña", email = "soledad.saldana.diaz@gmail.com", role = "aut"))
+Maintainer: David Salgado <david.salgado.fernandez@gmail.com>
+Description: Definition of S4 classes and methods to handle and compute the
+    conditional measurement error moments under the optimization approach to
+    selective editing
+Depends:
+    R (>= 3.3.0)
+Imports:
+    methods (>= 3.3.0),
+    contObsPredModelParam (>= 0.0.1),
+    StQ (>= 0.3.11),
+    data.table (>= 1.10.0),
+    SelEditFunctions (>= 0.0.1)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
+Collate:
+    'AbsLossErrorMomentParam-class.R'
+    'ErrorMomentParam-class.R'
+    'ComputeErrorMoment.R'
+    'ErrorMoments-class.R'
