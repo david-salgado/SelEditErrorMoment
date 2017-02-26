@@ -18,7 +18,9 @@ Imports:
     contObsPredModelParam (>= 0.0.1),
     StQ (>= 0.3.11),
     data.table (>= 1.10.0),
-    SelEditFunctions (>= 0.0.1)
+    SelEditFunctions (>= 0.0.1),
+    slam (>= 0.1),
+    StQImputation (>= 0.0.1)
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true

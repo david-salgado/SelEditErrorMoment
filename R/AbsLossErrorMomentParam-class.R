@@ -22,9 +22,11 @@
 #' @export
 setClass(Class = "AbsLossErrorMomentParam",
          slots = c(VarNames = 'character',
-                   Homoskedastic = 'logical'),
+                   Homoskedastic = 'logical',
+                   Imputation = 'ImputationParam'),
          prototype = list(VarNames = character(0),
-                          Homoskedastic = logical(0)),
+                          Homoskedastic = logical(0),
+                          Imputation = new(Class = 'MeanImputationParam')),
          validity = function(object){
 
 

@@ -13,9 +13,15 @@
 #' @examples
 #' \dontrun{
 #'
+#' ImpParam <- new(Class = 'MeanImputationParam',
+#'                 VarNames = c('CifraNeg_13.___', 'Personal_07.__2.__'),
+#'                 DomainNames =  c('Tame_05._4.', 'ActivEcono_35._4._2.1.4._0'))
+#'
 #' AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
 #'                   VarNames =  c("CifraNeg_13.___", "Personal_07.__2.__"),
-#'                   Homoskedastic = c(FALSE, FALSE))
+#'                   Homoskedastic = c(FALSE, FALSE),
+#'                   Imputation = ImpParam)
+#'
 #'
 #' ComputeErrorMoment(ObsPredPar, AbsLossPar)
 #'
@@ -49,8 +55,9 @@ setMethod(
                 auxDT[[paste0('DesignW', VarName)]],
                 auxDT[[paste0('ErrorProb', VarName)]],
                 Param@Homoskedastic[indexVar])]
-
         })
+        Param@Imputation@VarNames <- paste0('Moment', VarNames)
+        auxDT <- StQImputation::Impute(auxDT, Param@Imputation)
 
         auxDT.list <- split(auxDT, auxDT[[object@VarRoles[['Domains']]]])
 

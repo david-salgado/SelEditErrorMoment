@@ -29,11 +29,13 @@ setClass(Class = "ErrorMoments",
          slots = c(VarNames = 'character',
                    Domains = 'data.table',
                    Units = 'list',
-                   Moments = 'list'),
+                   Moments = 'list',
+                   Imputation = 'ImputationParam'),
          prototype = list(VarNames = character(0),
                           Domains = data.table::data.table(NULL),
                           Units = list(),
-                          Moments = list()),
+                          Moments = list(),
+                          Imputation = new(Class = 'MeanImputationParam')),
          validity = function(object){
 
            if (dim(object@Domains)[1] != length(object@Units)){
