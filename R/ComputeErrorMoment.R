@@ -15,7 +15,7 @@
 #'
 #' ImpParam <- new(Class = 'MeanImputationParam',
 #'                 VarNames = c('CifraNeg_13.___', 'Personal_07.__2.__'),
-#'                 DomainNames =  c('Tame_05._4.', 'ActivEcono_35._4._2.1.4._0'))
+#'                 DomainNames =  c('Tame_05._2.', 'ActivEcono_35._4._2.1.4._0'))
 #'
 #' AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
 #'                   VarNames =  c("CifraNeg_13.___", "Personal_07.__2.__"),
@@ -38,7 +38,7 @@ setGeneric("ComputeErrorMoment", function(object, Param) {standardGeneric("Compu
 #'@export
 setMethod(
     f = "ComputeErrorMoment",
-    signature = c("contObsPredModelParam", "ErrorMomentParam"),
+    signature = c("contObsPredModelParam", "AbsLossErrorMomentParam"),
     function(object, Param){
 
         auxDT <- StQ::dcast_StQ(object@Data)

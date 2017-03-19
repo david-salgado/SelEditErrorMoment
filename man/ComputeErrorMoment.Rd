@@ -3,12 +3,13 @@
 \docType{methods}
 \name{ComputeErrorMoment}
 \alias{ComputeErrorMoment}
-\alias{ComputeErrorMoment,contObsPredModelParam,ErrorMomentParam-method}
+\alias{ComputeErrorMoment,contObsPredModelParam,AbsLossErrorMomentParam-method}
 \title{\code{ComputeErrorMoments} computes the moments of measurement error for each statistical unit}
 \usage{
 ComputeErrorMoment(object, Param)
 
-\S4method{ComputeErrorMoment}{contObsPredModelParam,ErrorMomentParam}(object,
+
+  \S4method{ComputeErrorMoment}{contObsPredModelParam,AbsLossErrorMomentParam}(object,
   Param)
 }
 \arguments{
@@ -30,7 +31,7 @@ variable and each statistical unit.
 
 ImpParam <- new(Class = 'MeanImputationParam',
                 VarNames = c('CifraNeg_13.___', 'Personal_07.__2.__'),
-                DomainNames =  c('Tame_05._4.', 'ActivEcono_35._4._2.1.4._0'))
+                DomainNames =  c('Tame_05._2.', 'ActivEcono_35._4._2.1.4._0'))
 
 AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
                   VarNames =  c("CifraNeg_13.___", "Personal_07.__2.__"),
