@@ -16,8 +16,7 @@
 #' @examples
 #' AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
 #'                   VarNames =  c("CifraNeg_13.___", "Personal_07._2.__"),
-#'                   Homoskedastic = c(FALSE, FALSE),
-#'                   UnitWeightNames = character(0))
+#'                   Homoskedastic = c(FALSE, FALSE))
 #'
 #' @import StQImputation
 #'
