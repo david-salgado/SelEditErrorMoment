@@ -19,6 +19,8 @@
 #'                   Homoskedastic = c(FALSE, FALSE),
 #'                   UnitWeightNames = character(0))
 #'
+#' @import StQImputation
+#'
 #' @export
 setClass(Class = "AbsLossErrorMomentParam",
          slots = c(VarNames = 'character',

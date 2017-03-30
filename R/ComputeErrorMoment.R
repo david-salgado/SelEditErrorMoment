@@ -59,7 +59,11 @@ setMethod(
         Param@Imputation@VarNames <- paste0('Moment', VarNames)
         auxDT <- StQImputation::Impute(auxDT, Param@Imputation)
 
-        auxDT.list <- split(auxDT, auxDT[[object@VarRoles[['Domains']]]])
+        auxDT.list <- split(auxDT, auxDT[, object@VarRoles[['Domains']], with = F])
+        indexEmpty <- which(lapply(auxDT.list, function(dt){dim(dt)[1]}) == 0)
+        NamesNotEmpty <- names(auxDT.list)[-indexEmpty]
+        auxDT.list <- auxDT.list[NamesNotEmpty]
+
 
         outputDomains <- lapply(seq(along = auxDT.list), function(indexDomain){
 
@@ -68,6 +72,7 @@ setMethod(
             out <- out[!duplicated(out)]
             return(out)
         })
+
         Domains <- rbindlist(outputDomains)
         outputUnits <- lapply(seq(along = auxDT.list), function(indexDomain){
 
@@ -78,16 +83,24 @@ setMethod(
 
             nUnits <- dim(outputUnits[[indexDomain]])[1]
             nVar <- length(VarNames)
-            indexMatrix <- cbind(1:nUnits, 1:nUnits, rep(1:nVar, each = nUnits))
-            MomentMatrix <- matrix(NA, nrow = nUnits, ncol = nVar)
-            for (indexVar in seq(along = VarNames)){
+            if (nUnits > 0){
+                indexMatrix <- cbind(1:nUnits, 1:nUnits, rep(1:nVar, each = nUnits))
+                MomentMatrix <- matrix(NA, nrow = nUnits, ncol = nVar)
+                for (indexVar in seq(along = VarNames)){
 
-                MomentMatrix[, indexVar] <- auxDT.list[[indexDomain]][[paste0('Moment', VarNames[indexVar])]]
+                    MomentMatrix[, indexVar] <- auxDT.list[[indexDomain]][[paste0('Moment', VarNames[indexVar])]]
+                }
+                out <- slam::simple_sparse_array(indexMatrix, as.vector(MomentMatrix))
+
+            } else {
+
+                out <- array( dim = c(0, 0, nVar))
+                out <- slam::as.simple_sparse_array(out)
+
             }
-            out <- slam::simple_sparse_array(indexMatrix, as.vector(MomentMatrix))
-
             return(out)
         })
+
         output <- new(Class = 'ErrorMoments',
                       VarNames = VarNames,
                       Domains = Domains,
