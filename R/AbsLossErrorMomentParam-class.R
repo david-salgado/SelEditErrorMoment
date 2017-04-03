@@ -18,6 +18,8 @@
 #'                   VarNames =  c("CifraNeg_13.___", "Personal_07._2.__"),
 #'                   Homoskedastic = c(FALSE, FALSE))
 #'
+#' @import StQImputation
+#'
 #' @export
 setClass(Class = "AbsLossErrorMomentParam",
          slots = c(VarNames = 'character',
