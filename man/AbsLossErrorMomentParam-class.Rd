@@ -20,10 +20,11 @@ be computed.}
 \item{\code{UnitWeightNames}}{Character vector with the names of the variables representing the unit
 weights in heteroskedastic observation-prediction models.}
 }}
-
 \examples{
 AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
                   VarNames =  c("CifraNeg_13.___", "Personal_07._2.__"),
-                  Homoskedastic = c(FALSE, FALSE))
+                  Homoskedastic = c(FALSE, FALSE),
+                  UnitWeightNames = character(0))
 
 }
+

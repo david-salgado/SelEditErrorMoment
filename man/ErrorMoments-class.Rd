@@ -25,8 +25,8 @@ of slot \code{Domains}) with the set of error moments matrices per domain. Note 
 of each error moment matrix is given by the order of the corresponding data.table in slot
 \code{Units}.}
 }}
-
 \examples{
 new(Class = 'ErrorMoments')
 
 }
+
