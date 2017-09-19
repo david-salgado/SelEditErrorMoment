@@ -44,7 +44,7 @@ setMethod(
         auxDT <- StQ::dcast_StQ(object@Data)
         VarNames <- Param@VarNames
 
-        lapply(seq(along = Param@VarNames), function(indexVar){
+        lapply(seq(along = VarNames), function(indexVar){
 
             VarName <- VarNames[indexVar]
             auxDT[, (paste0('Moment', VarName)) := SelEditFunctions::AbsLossErrorMoment(
@@ -56,6 +56,7 @@ setMethod(
                 auxDT[[paste0('ErrorProb', VarName)]],
                 Param@Homoskedastic[indexVar])]
         })
+
         Param@Imputation@VarNames <- paste0('Moment', VarNames)
         auxDT <- StQImputation::Impute(auxDT, Param@Imputation)
 
