@@ -27,7 +27,7 @@ setClass(Class = "AbsLossErrorMomentParam",
                    Imputation = 'ImputationParam'),
          prototype = list(VarNames = character(0),
                           Homoskedastic = logical(0),
-                          Imputation = new(Class = 'MeanImputationParam')),
+                          Imputation = new(Class = 'MedianImputationParam')),
          validity = function(object){
 
 
