@@ -61,8 +61,7 @@ setMethod(
 
         auxDT.list <- split(auxDT, auxDT[, object@VarRoles[['Domains']], with = F])
         indexEmpty <- which(lapply(auxDT.list, function(dt){dim(dt)[1]}) == 0)
-        NamesNotEmpty <- names(auxDT.list)[-indexEmpty]
-        auxDT.list <- auxDT.list[NamesNotEmpty]
+        if (length(indexEmpty) > 0) auxDT.list <- auxDT.list[-indexEmpty]
 
 
         outputDomains <- lapply(seq(along = auxDT.list), function(indexDomain){
