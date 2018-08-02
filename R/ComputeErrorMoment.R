@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'
+#' ObsPredPar <- readRDS('../ObsPredPar.rds')
 #' ImpParam <- new(Class = 'MeanImputationParam',
 #'                 VarNames = c('CifraNeg_13.___', 'Personal_07.__2.__'),
 #'                 DomainNames =  c('Tame_05._2.', 'ActivEcono_35._4._2.1.4._0'))
@@ -44,7 +44,7 @@ setMethod(
         auxDT <- StQ::dcast_StQ(object@Data)
         VarNames <- Param@VarNames
 
-        lapply(seq(along = Param@VarNames), function(indexVar){
+        lapply(seq(along = VarNames), function(indexVar){
 
             VarName <- VarNames[indexVar]
             auxDT[, (paste0('Moment', VarName)) := SelEditFunctions::AbsLossErrorMoment(
@@ -62,8 +62,6 @@ setMethod(
         auxDT.list <- split(auxDT, auxDT[, object@VarRoles[['Domains']], with = F])
         indexEmpty <- which(lapply(auxDT.list, function(dt){dim(dt)[1]}) == 0)
         if (length(indexEmpty) > 0) auxDT.list <- auxDT.list[-indexEmpty]
-        #NamesNotEmpty <- names(auxDT.list)#[-indexEmpty]
-        #auxDT.list <- auxDT.list[NamesNotEmpty]
 
         outputDomains <- lapply(seq(along = auxDT.list), function(indexDomain){
 
