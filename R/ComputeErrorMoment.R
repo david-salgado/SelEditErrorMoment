@@ -28,7 +28,7 @@
 #' }
 #' @include ErrorMomentParam-class.R
 #'
-#' @import data.table contObsPredModelParam
+#' @import data.table contObsPredModelParam categObsPredModelParam
 #'
 #' @export
 setGeneric("ComputeErrorMoment", function(object, Param) {standardGeneric("ComputeErrorMoment")})
@@ -107,3 +107,130 @@ setMethod(
         return(output)
     }
 )
+
+#'@export
+setMethod(
+    f = "ComputeErrorMoment",
+    signature = c("categObsPredModelParam", "AbsLossErrorMomentParam"),
+    function(object, Param){
+
+        data.StQ <- getData(object)
+        data.dt <- dcast_StQ(data.StQ)
+        probs.dt <- object@probs
+        regressors <- getRegressors(object)
+        regressands <- getRegressands(object)
+        domains <- object@VarRoles$Domains
+        workingDT <- merge(data.dt, probs.dt, by = c(regressands, regressors), all.x = TRUE)
+
+        if (Param@Homoskedastic == TRUE){
+
+            wName <- object@VarRoles$DesignW
+            workingDT <- workingDT[
+                , Moment := ecdf(as.numeric(get(wName)) * P01)(as.numeric(get(wName)) * P01),
+                by = c(domains, regressands)]
+
+        }
+
+        if (Param@Homoskedastic == FALSE){
+
+            workingDT <- workingDT[
+                , moment := ecdf(P01)(P01),
+                by = c(domains, regressands)]
+
+        }
+
+        IDQuals <- getIDQual(data.StQ)
+        domains <- c(domains, Param@Imputation@DomainNames)
+        workingVars <- c(IDQuals, domains, 'variable', regressands, regressors, 'Moment')
+        workingDT <- workingDT[, ..workingVars]
+
+        if (length(domains) > 0) {
+
+            formula <- paste(
+                paste(paste(IDQuals, collapse = ' + '),
+                      paste(domains, collapse = ' + '),
+                      paste(regressors, collapse = ' + '),
+                      sep = ' + '),
+                'variable', sep = ' ~ ')
+
+        } else {
+
+            formula <- paste(
+                paste(paste(IDQuals, collapse = ' + '),
+                      paste(regressors, collapse = ' + '),
+                      sep = ' + '),
+                'variable', sep = ' ~ ')
+        }
+
+
+        auxDT <- dcast(workingDT, formula = as.formula(formula), value.var = 'Moment')
+        setnames(auxDT, regressands, paste0('Moment', regressands))
+        Param@Imputation@VarNames <- paste0('Moment', regressands)
+        auxDT <- StQImputation::Impute(auxDT, Param@Imputation)
+        auxDT[, (domains) := NULL]
+        domains <- object@VarRoles$Domains
+
+        if (length(domains) > 0) {
+
+            auxDT.list <- split(auxDT, auxDT[, ..domains])
+            indexEmpty <- which(lapply(auxDT.list, function(dt){dim(dt)[1]}) == 0)
+            if (length(indexEmpty) > 0) auxDT.list <- auxDT.list[-indexEmpty]
+
+            outputDomains <- lapply(seq(along = auxDT.list), function(indexDomain){
+
+                out <- auxDT.list[[indexDomain]][, ..domains]
+                setkeyv(out, names(out))
+                out <- out[!duplicated(out)]
+                return(out)
+            })
+            outputDomains <- rbindlist(outputDomains)
+
+        } else {
+
+            auxDT.list <- list(auxDT)
+            outputDomains <- data.table(NULL)
+
+        }
+
+
+        outputUnits <- lapply(seq(along = auxDT.list), function(indexDomain){
+
+            out <- auxDT.list[[indexDomain]][, ..IDQuals]
+            return(out)
+        })
+
+        outputMoments <- lapply(seq(along = auxDT.list), function(indexDomain){
+
+            nUnits <- dim(outputUnits[[indexDomain]])[1]
+            nVar <- length(regressands)
+            if (nUnits > 0) {
+
+                indexMatrix <- cbind(1:nUnits, 1:nUnits, rep(1:nVar, each = nUnits))
+                MomentMatrix <- matrix(NA, nrow = nUnits, ncol = nVar)
+                for (indexVar in seq(along = regressands)){
+
+                    MomentMatrix[, indexVar] <- auxDT.list[[indexDomain]][[paste0('Moment', regressands[indexVar])]]
+                }
+                out <- slam::simple_sparse_array(indexMatrix, as.vector(MomentMatrix))
+
+            } else {
+
+                out <- array( dim = c(0, 0, nVar))
+                out <- slam::as.simple_sparse_array(out)
+
+            }
+            return(out)
+        })
+
+
+
+
+        output <- new(Class = 'ErrorMoments',
+                      VarNames = regressands,
+                      Domains = outputDomains,
+                      Units = outputUnits,
+                      Moments = outputMoments)
+        return(output)
+    }
+)
+

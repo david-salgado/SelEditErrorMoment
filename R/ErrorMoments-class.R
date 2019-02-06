@@ -36,7 +36,7 @@ setClass(Class = "ErrorMoments",
                           Moments = list()),
          validity = function(object){
 
-           if (dim(object@Domains)[1] != length(object@Units)){
+           if (dim(object@Domains)[1] != 0 && dim(object@Domains)[1] != length(object@Units)){
 
              stop('[ErrorMoments::validity] Domains and Units do not have the same number of domains.')
 

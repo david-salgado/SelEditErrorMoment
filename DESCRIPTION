@@ -16,6 +16,7 @@ Depends:
 Imports:
     methods (>= 3.3.0),
     contObsPredModelParam (>= 0.0.1),
+    categObsPredModelParam (>= 0.0.1),
     StQ (>= 0.3.11),
     data.table (>= 1.10.0),
     SelEditFunctions (>= 0.0.1),
