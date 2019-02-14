@@ -115,16 +115,19 @@ setMethod(
     function(object, Param){
 
         data.StQ <- getData(object)
-        data.dt <- dcast_StQ(data.StQ)
-        probs.dt <- object@probs
+        IDQuals <- getIDQual(data.StQ)
         regressors <- getRegressors(object)
         regressands <- getRegressands(object)
+        wName <- object@VarRoles$DesignW
         domains <- object@VarRoles$Domains
-        workingDT <- merge(data.dt, probs.dt, by = c(regressands, regressors), all.x = TRUE)
+        data.dt <- dcast_StQ(data.StQ)
+        data.dt <- data.dt[, setdiff(names(data.dt), c(regressors, regressands)), with = FALSE]
+        probs.dt <- object@probs
+        workingDT <- merge(data.dt, probs.dt, all.x = TRUE)
 
         if (Param@Homoskedastic == TRUE){
 
-            wName <- object@VarRoles$DesignW
+
             workingDT <- workingDT[
                 , Moment := ecdf(as.numeric(get(wName)) * P01)(as.numeric(get(wName)) * P01),
                 by = c(domains, regressands)]
