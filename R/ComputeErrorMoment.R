@@ -3,8 +3,8 @@
 #' @param object Object of class \linkS4class{contObsPredModelParam} containing the statistical
 #' units whose moments of measurement error for each variable is to be computed.
 #'
-#' @param Param Object of virtual class \linkS4class{ErrorMomentParam} with the parameters determining
-#' the method of computation of the moments of each statistical unit.
+#' @param Param Object of virtual class \linkS4class{ErrorMomentParam} with the parameters
+#' determining the method of computation of the moments of each statistical unit.
 #'
 #' @return Object of class \linkS4class{ErrorMoments} with the measurement error computed for each
 #' variable and each statistical unit.

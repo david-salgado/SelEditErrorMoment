@@ -12,18 +12,19 @@ approach to selective editing.
 \section{Slots}{
 
 \describe{
-\item{\code{VarNames}}{Character vector with the names of the variables whose probability errors are to
-be computed.}
+\item{\code{VarNames}}{Character vector with the names of the variables whose moments of measurement
+error are to be computed.}
 
-\item{\code{Homoskedastic}}{Logical}
+\item{\code{Homoskedastic}}{\code{TRUE} (default) or \code{FALSE} indicating whether to use a
+homoskedastic or heteroskedastic model.}
 
-\item{\code{UnitWeightNames}}{Character vector with the names of the variables representing the unit
-weights in heteroskedastic observation-prediction models.}
+\item{\code{Imputation}}{\linkS4class{ImputationParam} object with the parameters to impute missing
+values during the computation of the moments of measurement error.}
 }}
+
 \examples{
 AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
                   VarNames =  c("CifraNeg_13.___", "Personal_07._2.__"),
                   Homoskedastic = c(FALSE, FALSE))
 
 }
-

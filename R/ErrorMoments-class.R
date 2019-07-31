@@ -5,18 +5,18 @@
 #'
 #'
 #' @slot VarNames Character vector with the names of the variables whose error moments are contained
-#'  in this object.
+#' in this object.
 #'
 #' @slot Domains \linkS4class{data.table} with a row per domain with the values of the variables
 #' determining the domains of the data set.
 #'
 #' @slot Units List of data.tables with as many components as domains (in the same order of the rows
-#'  of slot \code{Domains}) with every unit per domain.
+#' of slot \code{Domains}) with every unit per domain.
 #'
 #' @slot Moments List of arrays with as many components as domains (in the same order of the rows
-#'  of slot \code{Domains}) with the set of error moments matrices per domain. Note that the order
-#'  of each error moment matrix is given by the order of the corresponding data.table in slot
-#'  \code{Units}.
+#' of slot \code{Domains}) with the set of error moments matrices per domain. Note that the order
+#' of each error moment matrix is given by the order of the corresponding data.table in slot
+#' \code{Units}.
 #'
 #'
 #' @examples

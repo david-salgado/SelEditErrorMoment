@@ -16,8 +16,8 @@ ComputeErrorMoment(object, Param)
 \item{object}{Object of class \linkS4class{contObsPredModelParam} containing the statistical
 units whose moments of measurement error for each variable is to be computed.}
 
-\item{Param}{Object of virtual class \linkS4class{ErrorMomentParam} with the parameters determining
-the method of computation of the moments of each statistical unit.}
+\item{Param}{Object of virtual class \linkS4class{ErrorMomentParam} with the parameters
+determining the method of computation of the moments of each statistical unit.}
 }
 \value{
 Object of class \linkS4class{ErrorMoments} with the measurement error computed for each
@@ -43,4 +43,3 @@ ComputeErrorMoment(ObsPredPar, AbsLossPar)
 
 }
 }
-

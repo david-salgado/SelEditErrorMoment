@@ -5,13 +5,14 @@
 #' approach to selective editing.
 #'
 #'
-#' @slot VarNames Character vector with the names of the variables whose probability errors are to
-#' be computed.
+#' @slot VarNames Character vector with the names of the variables whose moments of measurement
+#' error are to be computed.
 #'
-#' @slot Homoskedastic Logical
-#'
-#' @slot UnitWeightNames Character vector with the names of the variables representing the unit
-#' weights in heteroskedastic observation-prediction models.
+#' @slot Homoskedastic \code{TRUE} (default) or \code{FALSE} indicating whether to use a
+#' homoskedastic or heteroskedastic model.
+#' 
+#' @slot Imputation \linkS4class{ImputationParam} object with the parameters to impute missing
+#' values during the computation of the moments of measurement error.
 #'
 #' @examples
 #' AbsLossPar <- new(Class = 'AbsLossErrorMomentParam',
